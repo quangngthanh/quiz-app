@@ -12,7 +12,9 @@ const Leaderboard: React.FC = () => {
   const [lastUpdate, setLastUpdate] = useState<Date>(new Date());
 
   // WebSocket connection for real-time updates
-  const wsUrl = `ws://localhost:${import.meta.env.VITE_PORT}/ws/quiz/${quiz_id}/leaderboard`;
+  const wsUrl = import.meta.env.PROD
+    ? `${import.meta.env.VITE_HOST.replace('https://', 'wss://')}/ws/quiz/${quiz_id}/leaderboard`
+    : `${import.meta.env.VITE_HOST.replace('http://', 'ws://')}:${import.meta.env.VITE_PORT}/ws/quiz/${quiz_id}/leaderboard`;
   const { isConnected, error } = useWebSocket(wsUrl, {
     onMessage: (message) => {
       if (message.type === 'leaderboard_update') {

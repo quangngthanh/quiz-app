@@ -15,4 +15,4 @@ COPY --from=builder /app/main .
 COPY --from=builder /app/migrations ./migrations
 COPY --from=builder /app/config ./config
 
-CMD ["./main"]
+CMD ["./main", "-env", "prod"]

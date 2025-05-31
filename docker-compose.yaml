@@ -8,31 +8,33 @@ services:
       - POSTGRES_DB=quiz_db
       - POSTGRES_USER=quiz_user
       - POSTGRES_PASSWORD=quiz_password
-    ports:
-      - "5432:5432"
+    # ports:
+    #   - "5432:5432"
     volumes:
-      - ./postgres_data:/var/lib/postgresql/data
+      - postgres_data:/var/lib/postgresql/data
       - ./backend/migrations:/docker-entrypoint-initdb.d
 
-  # pgadmin:
-  #   image: dpage/pgadmin4
-  #   container_name: quiz-pgadmin
-  #   ports:
-  #     - "5050:80"
-  #   environment:
-  #     PGADMIN_DEFAULT_EMAIL: admin@quiz.com
-  #     PGADMIN_DEFAULT_PASSWORD: admin
-  #   volumes:
-  #     - pgadmin_data:/var/lib/pgadmin
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: quiz-pgadmin
+    ports:
+      - "5050:80"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@quiz.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
 
   redis:
+    container_name: quiz-redis
     image: redis:7-alpine
-    ports:
-      - "6379:6379"
+    # ports:
+    #   - "6379:6379"
     volumes:
       - redis_data:/data
 
   backend:
+    container_name: quiz-backend
     build:
       context: ./backend
       dockerfile: Dockerfile

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { quizAPI } from '../utils/api';
-import type { Quiz, Question, User, SubmitAnswerResponse } from '../types/quiz';
+import type { Quiz, Question, User } from '../types/quiz';
 
 const QuizParticipant: React.FC = () => {
   const { quiz_id } = useParams<{ quiz_id: string }>();
@@ -11,7 +11,6 @@ const QuizParticipant: React.FC = () => {
   const [selectedAnswer, setSelectedAnswer] = useState<string>('');
   const [score, setScore] = useState(0);
   const [answeredQuestions, setAnsweredQuestions] = useState<Set<string>>(new Set());
-  const [lastResult, setLastResult] = useState<SubmitAnswerResponse | null>(null);
   const [loading, setLoading] = useState(false);
   const [joining, setJoining] = useState(false);
   const [username, setUsername] = useState('');
@@ -73,14 +72,12 @@ const QuizParticipant: React.FC = () => {
         answer: selectedAnswer,
       });
       
-      setLastResult(response.data);
       setScore(response.data.new_score);
       setAnsweredQuestions(prev => new Set([...prev, currentQuestion.id]));
       setSelectedAnswer('');
       
       // Auto advance to next question after 2 seconds
       setTimeout(() => {
-        setLastResult(null);
         if (currentQuestionIndex < quiz!.questions.length - 1) {
           setCurrentQuestionIndex(prev => prev + 1);
         }

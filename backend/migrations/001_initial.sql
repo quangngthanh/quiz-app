@@ -22,7 +22,7 @@ CREATE TABLE questions (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     quiz_session_id UUID REFERENCES quiz_sessions(id) ON DELETE CASCADE,
     question_text TEXT NOT NULL,
-    options JSONB NOT NULL,
+    options TEXT[] NOT NULL,
     correct_answer VARCHAR(255) NOT NULL,
     points INTEGER DEFAULT 10,
     "order" INTEGER NOT NULL
