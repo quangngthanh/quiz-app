@@ -180,11 +180,10 @@ func (s *quizService) updateAndBroadcastLeaderboard(quizID string) {
 		return
 	}
 
-	leaderboard, err := s.redisRepo.GetLeaderboard(quizID)
+	leaderboard, err := s.GetLeaderboard(quizID)
 	if err != nil {
 		return
 	}
-
 	// Broadcast to WebSocket viewers
 	s.wsService.BroadcastLeaderboardUpdate(quizID, leaderboard)
 }
@@ -258,15 +257,6 @@ func (s *quizService) InvalidateLeaderboardCache(quizID string) error {
 	}
 	log.Printf("🗑️ Invalidated leaderboard cache for %s", quizID)
 	return nil
-}
-
-func (s *quizService) invalidateUserScoreCache(userID, quizID string) {
-	key := fmt.Sprintf("user_score:%s:%s", userID, quizID)
-	if err := s.redisRepo.DeleteKey(key); err != nil {
-		log.Printf("⚠️ Failed to invalidate user score cache: %v", err)
-	} else {
-		log.Printf("🗑️ Invalidated user score cache for %s in quiz %s", userID, quizID)
-	}
 }
 
 // ================================================================

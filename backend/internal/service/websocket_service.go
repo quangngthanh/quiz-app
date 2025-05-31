@@ -15,7 +15,6 @@ type WebSocketService interface {
 	UnregisterLeaderboardViewer(quizID string, conn *websocket.Conn)
 	HasLeaderboardViewers(quizID string) bool
 	BroadcastLeaderboardUpdate(quizID string, leaderboard []model.LeaderboardEntry)
-	StartListening()
 }
 
 type Client struct {
@@ -44,7 +43,6 @@ func NewWebSocketService(redisRepo repository.RedisRepository) WebSocketService 
 		redisRepo: redisRepo,
 	}
 
-	go service.StartListening()
 	return service
 }
 
@@ -133,11 +131,6 @@ func (s *webSocketService) BroadcastLeaderboardUpdate(quizID string, leaderboard
 	if exists {
 		hub.broadcast <- message
 	}
-}
-
-func (s *webSocketService) StartListening() {
-	// This could be used for Redis pub/sub if needed
-	// For now, we handle broadcasts directly
 }
 
 func (h *Hub) run() {

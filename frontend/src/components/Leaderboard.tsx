@@ -80,7 +80,7 @@ const Leaderboard: React.FC = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-100 flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-to-br from-indigo-100 via-purple-50 to-pink-100 flex items-center justify-center backdrop-blur-sm">
         <div className="text-center">
           <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-blue-500 mx-auto"></div>
           <p className="mt-4 text-gray-600">Loading leaderboard...</p>
@@ -90,7 +90,7 @@ const Leaderboard: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-100">
+    <div className="min-h-screen bg-gradient-to-br from-indigo-100 via-purple-50 to-pink-100">
       {/* Header */}
       <div className="bg-white shadow-sm">
         <div className="max-w-6xl mx-auto px-4 py-6">
@@ -98,7 +98,7 @@ const Leaderboard: React.FC = () => {
             <div>
               <h1 className="text-3xl font-bold text-gray-800">{quiz?.title} - Leaderboard</h1>
               <p className="text-gray-600 mt-2">
-                Live rankings • {leaderboard.length} participants
+                Live rankings • {leaderboard?.length || 0} participants
               </p>
             </div>
             <div className="text-right">
@@ -126,7 +126,7 @@ const Leaderboard: React.FC = () => {
 
       {/* Leaderboard */}
       <div className="max-w-6xl mx-auto px-4 py-8">
-        {leaderboard.length === 0 ? (
+        {leaderboard?.length === 0 ? (
           <div className="bg-white rounded-lg shadow-lg p-12 text-center">
             <div className="text-6xl mb-4">🎯</div>
             <h2 className="text-2xl font-bold text-gray-700 mb-2">No participants yet</h2>
@@ -141,14 +141,14 @@ const Leaderboard: React.FC = () => {
         ) : (
           <div className="space-y-4">
             {/* Top 3 Podium */}
-            {leaderboard.length >= 3 && (
+            {leaderboard?.length >= 3 && (
               <div className="bg-white rounded-lg shadow-lg p-8 mb-8">
                 <h2 className="text-2xl font-bold text-center text-gray-800 mb-8">Top 3</h2>
                 <div className="flex justify-center items-end space-x-8">
                   {/* 2nd Place */}
                   {leaderboard[1] && (
-                    <div className="text-center">
-                      <div className="bg-gray-200 rounded-lg p-6 mb-4" style={{ height: '120px' }}>
+                    <div className="text-center w-1/5">
+                      <div className="bg-gray-200 rounded-lg p-6 mb-4" style={{ height: '140px' }}>
                         <div className="text-4xl mb-2">🥈</div>
                         <div className="font-bold text-gray-700">{leaderboard[1].username}</div>
                         <div className="text-xl font-bold text-gray-600">{leaderboard[1].score}</div>
@@ -159,8 +159,8 @@ const Leaderboard: React.FC = () => {
 
                   {/* 1st Place */}
                   {leaderboard[0] && (
-                    <div className="text-center">
-                      <div className="bg-yellow-200 rounded-lg p-6 mb-4" style={{ height: '150px' }}>
+                    <div className="text-center w-1/5">
+                      <div className="bg-yellow-200 rounded-lg p-6 mb-4" style={{ height: '170px' }}>
                         <div className="text-5xl mb-2">👑</div>
                         <div className="font-bold text-yellow-800">{leaderboard[0].username}</div>
                         <div className="text-2xl font-bold text-yellow-700">{leaderboard[0].score}</div>
@@ -171,8 +171,8 @@ const Leaderboard: React.FC = () => {
 
                   {/* 3rd Place */}
                   {leaderboard[2] && (
-                    <div className="text-center">
-                      <div className="bg-orange-200 rounded-lg p-6 mb-4" style={{ height: '100px' }}>
+                    <div className="text-center w-1/5">
+                      <div className="bg-orange-200 rounded-lg p-6 mb-4" style={{ height: '130px' }}>
                         <div className="text-3xl mb-2">🥉</div>
                         <div className="font-bold text-orange-700">{leaderboard[2].username}</div>
                         <div className="text-lg font-bold text-orange-600">{leaderboard[2].score}</div>
@@ -189,8 +189,8 @@ const Leaderboard: React.FC = () => {
               <div className="px-6 py-4 bg-gray-50 border-b">
                 <h3 className="text-lg font-semibold text-gray-800">All Participants</h3>
               </div>
-              <div className="divide-y divide-gray-200">
-                {leaderboard.map((entry, index) => (
+              <div className="divide-y divide-gray-200 max-h-[500px] overflow-y-auto">
+                {leaderboard?.map((entry, index) => (
                   <div
                     key={entry.user_id}
                     className={`flex items-center justify-between p-6 hover:bg-gray-50 transition-colors ${
@@ -219,18 +219,18 @@ const Leaderboard: React.FC = () => {
             {/* Stats */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               <div className="bg-white rounded-lg shadow p-6 text-center">
-                <div className="text-3xl font-bold text-blue-600">{leaderboard.length}</div>
+                <div className="text-3xl font-bold text-blue-600">{leaderboard?.length}</div>
                 <div className="text-gray-600">Total Participants</div>
               </div>
               <div className="bg-white rounded-lg shadow p-6 text-center">
                 <div className="text-3xl font-bold text-green-600">
-                  {leaderboard.length > 0 ? Math.max(...leaderboard.map(l => l.score)) : 0}
+                  {leaderboard?.length > 0 ? Math.max(...leaderboard.map(l => l.score)) : 0}
                 </div>
                 <div className="text-gray-600">Highest Score</div>
               </div>
               <div className="bg-white rounded-lg shadow p-6 text-center">
                 <div className="text-3xl font-bold text-purple-600">
-                  {leaderboard.length > 0 ? Math.round(leaderboard.reduce((sum, l) => sum + l.score, 0) / leaderboard.length) : 0}
+                  {leaderboard?.length > 0 ? Math.round(leaderboard.reduce((sum, l) => sum + l.score, 0) / leaderboard.length) : 0}
                 </div>
                 <div className="text-gray-600">Average Score</div>
               </div>
