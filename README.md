@@ -1,4 +1,4 @@
-Dưới đây là bản hướng dẫn README.md tổng hợp, rõ ràng cho dự án quiz-app, chia thành hai phần: **Backend** và **Frontend**. Nội dung bao gồm công nghệ sử dụng, lệnh khởi động, migrate, và các thông tin cần thiết khác.
+Thông tin cho dự án quiz-app, chia thành hai phần: **Backend** và **Frontend**. Nội dung bao gồm công nghệ sử dụng, lệnh khởi động, migrate, và các thông tin cần thiết khác.
 
 ---
 
@@ -44,7 +44,7 @@ cd backend
 go mod tidy
 ```
 
-#### 2. Khởi động server ()
+#### 2. Khởi động server
 ```bash
 # Chạy trực tiếp (yêu cầu đã có postgres và redis như trong docker compose file: `docker compose up postgres redis`)
 go run cmd/server/main.go
