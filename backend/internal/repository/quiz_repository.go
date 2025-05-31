@@ -33,7 +33,7 @@ func (r *quizRepository) CreateQuiz(quiz *model.QuizSession) error {
 
 func (r *quizRepository) GetQuiz(id uuid.UUID) (*model.QuizSession, error) {
 	var quiz model.QuizSession
-	err := r.db.Preload("Questions").Where("id = ? AND status = 'waiting'", id).First(&quiz).Error
+	err := r.db.Preload("Questions").Where("id = ?", id).First(&quiz).Error
 	return &quiz, err
 }
 
