@@ -1,0 +1,14 @@
+server:
+  port: "8088"
+redis:
+  addr: "localhost:6379"
+  password: ""
+  port: 6379
+database:
+  name: "quiz_db"
+  user: "quiz_user"
+  password: "quiz_password"
+  host: "localhost"
+  port: "5432"
+  sslmode: "disable"
+
